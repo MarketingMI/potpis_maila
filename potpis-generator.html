@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <title>Generator email potpisa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #d60b52;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Generator email potpisa M&I Systems Group</h2>
+
+<label for="ime">Ime i prezime:</label>
+<input type="text" id="ime" placeholder="npr. Una Lalić">
+
+<label for="pozicija">Pozicija:</label>
+<input type="text" id="pozicija" placeholder="npr. Marketing Business Partner">
+
+<label for="telefon">Broj telefona:</label>
+<input type="text" id="telefon" placeholder="+381 69 8461 555">
+
+<button onclick="generisiPotpis()">Generiši potpis</button>
+
+<h3>Rezultat (kopiraj kod ispod):</h3>
+<textarea id="rezultat" readonly></textarea>
+
+<script>
+  function generisiPotpis() {
+    var ime = document.getElementById("ime").value.trim();
+    var pozicija = document.getElementById("pozicija").value.trim();
+    var telefon = document.getElementById("telefon").value.trim();
+
+    if (!ime || !pozicija || !telefon) {
+      alert("Molimo popunite sva polja.");
+      return;
+    }
+
+    var email = ime.toLowerCase()
+      .replace(/[čć]/g, "c")
+      .replace(/š/g, "s")
+      .replace(/ž/g, "z")
+      .replace(/đ/g, "dj")
+      .replace(/\s+/g, ".")
+      .replace(/[^a-z0-9.]/g, "") + "@misystemsgroup.com";
+
+    var potpis = `<table cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; font-size:10pt; color:#000; border-collapse:collapse; line-height:1.4;">
+  <tr>
+    <td style="vertical-align:middle; padding-right:4px;">
+      <a href="https://misystemsgroup.com/" target="_blank" rel="noopener noreferrer">
+        <img src="https://misystemsgroup.com/wp-content/uploads/2025/07/Potpis-logo-color.png" alt="M&I Logo" width="67" height="auto" style="display:block;">
+      </a>
+    </td>
+    <td style="width:3px; background-color:#d91b5b;">
+      <img src="https://misystemsgroup.com/wp-content/uploads/2025/07/MI_vertical.png" width="3" height="80" alt="" style="display:block; background-color:#d60b52;">
+    </td>
+    <td style="vertical-align:middle; padding-left:10px;">
+      <p style="margin:0; font-family:'Gotham Rounded Medium', Arial, sans-serif; color:#d60b52; font-size:12.8pt;">${ime}</p>
+      <p style="margin:0;">${pozicija}</p>
+      <p style="margin:0;">${telefon}</p>
+      <p style="margin:0;">
+        <a href="mailto:${email}" style="color:#444; text-decoration:none;">${email}</a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3" style="padding-top:10px;">
+      <img src="https://misystemsgroup.com/wp-content/uploads/2025/07/MI_420x3.png" width="365" height="3" style="display:block;" alt="">
+      <p style="margin:4px 0 0; padding-top:4px; font-family:'Gotham Rounded Medium', Arial, sans-serif; color:#d60b52;">M&amp;I Systems Group</p>
+      <p style="color:#444; margin:0;">Industrijska 3b, 21000 Novi Sad, Srbija</p>
+      <p style="color:#444; margin:0;">+381 21 68 98 602</p>
+      <p style="margin:0;">
+        <a href="http://www.misystemsgroup.com/" style="color:#444; text-decoration:none;">www.misystemsgroup.com</a>
+      </p>
+      <p style="margin:3px 0 0; font-size:8pt; font-family:Arial; color:#d60b52;">
+        <img src="https://misystemsgroup.com/wp-content/uploads/2025/07/MI_146x3.png" width="90" height="3" style="vertical-align:middle; margin-right:3px;" alt="">
+        <span style="color:#444;">Novi Sad</span> <span style="color:#d60b52;">•</span>
+        <span style="color:#444;">Beograd</span> <span style="color:#d60b52;">•</span>
+        <span style="color:#444;">Banja Luka</span> <span style="color:#d60b52;">•</span>
+        <span style="color:#444;">Graz</span> <span style="color:#d60b52;">•</span>
+        <span style="color:#444;">Zagreb</span> <span style="color:#d60b52;">•</span>
+        <span style="color:#444;">Split</span>
+      </p>
+    </td>
+  </tr>
+</table>`;
+
+    document.getElementById("rezultat").value = potpis;
+  }
+</script>
+
+</body>
+</html>
